@@ -1,2 +1,15 @@
 {
+    "port": 80,
+    "allow_all_accounts": false,
+    "allowed_accounts": [
+        "test.serverdensity.com",
+        "foobar",
+        "barfoo.serverdensity.com"
+    ],
+    "use_outbound_ssl": true,
+    "allow_all_agents": false,
+    "allowed_agents": [
+        "1234567890qwertyuiop",
+        "blahblahblah"
+    ]
 }
