@@ -9,7 +9,6 @@ patch_all()
 
 @app.route('/postback/', methods=('POST',))
 def postbacks():
-    print settings
     return u'OK'
 
 if __name__ == '__main__':
