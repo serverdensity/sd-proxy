@@ -3,7 +3,8 @@
 
 from __future__ import print_function
 
-from sys import argv
+import os
+from sys import argv, path
 from gevent.wsgi import WSGIServer
 
 
@@ -13,9 +14,10 @@ def main(app, port=8889):
     http_server.serve_forever()
 
 if __name__ == '__main__':
-    from app import app
-    port = 8889
+    path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+    from sd_proxy.app import app
 
+    port = 8889
     if len(argv) > 1:
         port = argv[1]
 
