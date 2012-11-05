@@ -11,6 +11,9 @@ except ImportError:
 
 
 port = 8889
+allow_all_accounts = False
+allowed_accounts = []
+use_outbound_ssl = True
 
 
 #######################
