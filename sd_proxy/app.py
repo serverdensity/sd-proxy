@@ -5,9 +5,9 @@ app = Flask(__name__)
 patch_all()
 
 
-@app.route('/postback/')
+@app.route('/postback/', methods=('POST',))
 def postbacks():
-    return ''
+    return 'OK'
 
 if __name__ == '__main__':
     app.run()
