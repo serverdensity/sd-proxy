@@ -1,2 +1,3 @@
 gevent
-tproxy
+flask
+requests
