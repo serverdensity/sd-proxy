@@ -4,6 +4,7 @@
 from __future__ import print_function
 
 import os
+import logging
 from sys import argv, path, stderr, exit
 from gevent.wsgi import WSGIServer
 
@@ -24,5 +25,13 @@ if __name__ == '__main__':
     path.insert(0, os.path.dirname(os.path.dirname(__file__)))
     from sd_proxy.app import app
     from sd_proxy import settings
+
+    handler = logging.StreamHandler(stderr)
+    handler.setLevel(logging.WARNING)
+    handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s '
+        '[in %(pathname)s:%(lineno)d]'
+    ))
+    app.logger.addHandler(handler)
 
     main(app, settings.port)

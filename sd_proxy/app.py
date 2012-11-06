@@ -1,7 +1,5 @@
 import hashlib
-import logging
 import requests
-from sys import stderr
 from flask import Flask, request
 from gevent.monkey import patch_all
 
@@ -43,7 +41,7 @@ def postbacks():
         try:
             parsed_payload = json.loads(payload)
         except Exception as e:
-            logging.error("Error parsing payload for %s: %s", host, e)
+            app.logger.error("Error parsing payload for %s: %s", host, e)
             return '"payload error"', 500
 
         if not settings.allow_all_agents and parsed_payload.get('agentKey',
@@ -63,8 +61,4 @@ def postbacks():
         return '"unknown account"', 404
 
 if __name__ == '__main__':
-    handler = logging.StreamHandler(stderr)
-    handler.setLevel(logging.WARNING)
-    app.logger.addHandler(handler)
-
-    app.run(debug=settings.debug)
+    app.run(debug=True)
