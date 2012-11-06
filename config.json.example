@@ -11,5 +11,6 @@
     "allowed_agents": [
         "1234567890qwertyuiop",
         "blahblahblah"
-    ]
+    ],
+    "check_hashes": false
 }

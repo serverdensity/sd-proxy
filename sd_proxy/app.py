@@ -1,3 +1,4 @@
+import hashlib
 import requests
 from flask import Flask, request
 from gevent.monkey import patch_all
@@ -27,12 +28,17 @@ def postbacks():
         hash = request.form.get('hash', '')
         payload = request.form.get('payload', '')
 
+        if settings.check_hashes and hashlib.md5(payload).hexdigest() != hash:
+            return '"hash mismatch"', 500
+
         protocol = 'https' if settings.use_outbound_ssl else 'http'
 
         postback_url = '{0}://{1}/'.format(protocol, host)
         requests.post(postback_url, data={'hash': hash, 'payload': payload})
 
-    return u'"OK"'
+        return '"OK"'
+    else:
+        return '"unknown account"', 404
 
 if __name__ == '__main__':
     app.run()
