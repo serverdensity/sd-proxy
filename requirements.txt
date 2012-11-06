@@ -2,3 +2,4 @@ gevent
 flask
 requests
 simplejson
+jsonschema

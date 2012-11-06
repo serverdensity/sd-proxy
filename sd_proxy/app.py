@@ -2,6 +2,7 @@ import hashlib
 import requests
 from flask import Flask, request
 from gevent.monkey import patch_all
+from jsonschema import validate, ValidationError
 
 try:
     import simplejson as json
@@ -43,7 +44,7 @@ def postbacks():
         try:
             parsed_payload = json.loads(payload)
         except Exception as e:
-            app.logger.error("Error parsing payload for %s: %s", host, e)
+            app.logger.error("Error parsing payload (%s): %s", host, e)
             return '"payload error"', 500
 
         agent_key = parsed_payload.get('agentKey', '').strip()
@@ -57,6 +58,13 @@ def postbacks():
             app.logger.warning("Payload md5 mismatch: theirs: %s, ours: %s",
                                                         hash, check_hash)
             return '"hash mismatch"', 500
+
+        try:
+            validate(parsed_payload, SCHEMA)
+        except ValidationError as e:
+            app.logger.error("Error validating payload against schema"
+                             " (%s): %s", host, e)
+            return '"bad payload"', 500
 
         protocol = 'https' if settings.use_outbound_ssl else 'http'
 

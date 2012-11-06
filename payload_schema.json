@@ -1,9 +1,13 @@
 {
     "type": "object",
-    "items": {
-        "agentKey": { "type": "string" },
+    "properties": {
+        "agentKey": {
+            "type": "string",
+            "required": true
+        },
         "data": {
-            "type": "object"
+            "type": "object",
+            "required": true
         }
     }
 }
