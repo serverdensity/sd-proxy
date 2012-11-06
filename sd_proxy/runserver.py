@@ -34,4 +34,6 @@ if __name__ == '__main__':
     ))
     app.logger.addHandler(handler)
 
+    app.debug = settings.debug
+
     main(app, settings.port)

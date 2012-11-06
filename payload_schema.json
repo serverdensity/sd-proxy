@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "items": {
+        "agentKey": { "type": "string" },
+        "data": {
+            "type": "object"
+        }
+    }
+}

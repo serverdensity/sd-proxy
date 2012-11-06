@@ -1,4 +1,4 @@
-from os import getenv
+from os import getenv, path
 
 try:
     import simplejson as json
@@ -16,6 +16,8 @@ allowed_accounts = []
 use_outbound_ssl = True
 check_hashes = False
 debug = False
+payload_schema = path.join(path.dirname(path.dirname(__file__)),
+                           'payload_schema.json')
 
 
 #######################

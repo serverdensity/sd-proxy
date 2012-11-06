@@ -27,6 +27,8 @@ if not settings.allow_all_agents:
 else:
     ALLOWED_AGENTS = []
 
+SCHEMA = json.load(open(settings.payload_schema))
+
 
 @app.route('/postback/', methods=('POST',))
 def postbacks():
