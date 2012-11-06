@@ -44,11 +44,16 @@ def postbacks():
             app.logger.error("Error parsing payload for %s: %s", host, e)
             return '"payload error"', 500
 
-        if not settings.allow_all_agents and parsed_payload.get('agentKey',
-                                        '').strip() not in ALLOWED_AGENTS:
+        agent_key = parsed_payload.get('agentKey', '').strip()
+
+        if not settings.allow_all_agents and agent_key not in ALLOWED_AGENTS:
+            app.logger.warning("agentKey not in allowed_agents: %s", agent_key)
             return '"unknown agent"', 404
 
-        if settings.check_hashes and hashlib.md5(payload).hexdigest() != hash:
+        check_hash = hashlib.md5(payload).hexdigest()
+        if settings.check_hashes and check_hash != hash:
+            app.logger.warning("Payload md5 mismatch: theirs: %s, ours: %s",
+                                                        hash, check_hash)
             return '"hash mismatch"', 500
 
         protocol = 'https' if settings.use_outbound_ssl else 'http'
@@ -58,6 +63,7 @@ def postbacks():
 
         return '"OK"'
     else:
+        app.logger.warning("Host not in allowed_accounts: %s", host)
         return '"unknown account"', 404
 
 if __name__ == '__main__':
