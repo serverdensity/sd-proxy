@@ -5,9 +5,20 @@
             "type": "string",
             "required": true
         },
-        "data": {
-            "type": "object",
-            "required": true
+        "processes": {
+            "type": "array",
+            "additionalItems": {
+                "type": "array",
+                "additionalItems": {
+                    "type": "string"
+                }
+            }
         }
+    },
+    "os": {
+        "type": "string"
+    },
+    "networkTraffic": {
+        "type": ["object", "array"]
     }
 }
