@@ -7,9 +7,16 @@ from sys import argv, path, stdout, stderr, exit
 from gevent.wsgi import WSGIServer
 
 
+class VersionedWSGIServer(WSGIServer):
+
+    def __init__(self, server_version, *args, **kwargs):
+        self.base_env['SERVER_SOFTWARE'] = server_version
+        super(VersionedWSGIServer, self).__init__(*args, **kwargs)
+
+
 def run(app, port=8889):
-    WSGIServer.base_env['SERVER_SOFTWARE'] = 'sd-proxy/%s' % (app._version,)
-    http_server = WSGIServer(('', port), app)
+    version = 'sd-proxy/%s' % (app._version,)
+    http_server = VersionedWSGIServer(version, ('', port), app)
     http_server.serve_forever()
 
 
