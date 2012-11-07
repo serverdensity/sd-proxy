@@ -35,7 +35,7 @@ check_hashes = False
 use_schema = False
 
 # Location of the payload JSON (draft3) schema to check payloads against
-payload_schema = path.join(path.dirname(path.dirname(__file__)),
+payload_schema = path.join(path.dirname(__file__),
                            'payload_schema.json')
 
 # List of regular expressions to blacklist a payload if matched

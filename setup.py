@@ -22,6 +22,7 @@ setup(
     url='https://github.com/serverdensity/sd-proxy',
     packages=find_packages(exclude=['ez_setup']),
     install_requires=open('requirements.txt').readlines(),
+    package_data={'serverdensity/proxy': ['payload_schema.json']},
     include_package_data=True,
     license='BSD',
     entry_points={
