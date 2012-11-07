@@ -29,8 +29,8 @@ How?
 Install sd-proxy and run it on port `80` on the server you wish to proxy out
 from.
 Then on each server with an instance of `sd-agent` running that you wish to
-proxy change your SD account URI (e.g. `youraccount.serverdensity.com`) to the
-IP of the proxy server, e.g.::
+proxy change your SD account host name (e.g. `youraccount.serverdensity.com`) to point to the
+IP of the proxy server, e.g. in `/etc/hosts`::
 
     10.0.0.2 youraccount.serverdensity.com
 
@@ -60,12 +60,12 @@ Or from GitHub::
     pip install -r requirements.txt
     python serverdensity/proxy/runserver.py path/to/your/config.json
 
-yuno HTTPS?
+y u no HTTPS?
 -----------
 
 .. image:: http://i0.kym-cdn.com/entries/icons/original/000/004/006/y-u-no-guy.jpg
 
-As we're effectively performing a Man-In-The-Middle attack as it is on agent
+As we're acting as a Man-In-The-Middle for agent
 postbacks in order to allow the agents to postback over SSL to the proxy we
 would have to spoof the SSL certificate in some way, whcih apart from being a
 non-trivial problem is both bad juju and beyond the remit of the proxy.
