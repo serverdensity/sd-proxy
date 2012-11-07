@@ -48,11 +48,9 @@ check_ip_address = True
 # Postback IP addresses to verify against if check_ip_address is enabled see:
 # http://support.serverdensity.com/knowledgebase/articles/70742-postback-ip-address
 ip_addresses = (
-    '208.43.117.99',
-    '108.168.255.193'
-)
-non_ssl_ip_address = (
     '108.168.255.180',
+    '208.43.117.99',
+    '108.168.255.193',
     '108.168.255.195'
 )
 

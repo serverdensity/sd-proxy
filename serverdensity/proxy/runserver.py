@@ -8,6 +8,7 @@ from gevent.wsgi import WSGIServer
 
 
 def run(app, port=8889):
+    WSGIServer.base_env['SERVER_SOFTWARE'] = 'sd-proxy/%s' % (app._version,)
     http_server = WSGIServer(('', port), app)
     http_server.serve_forever()
 
@@ -18,8 +19,6 @@ def main():
         exit(1)
 
     os.environ['SD_PROXY_CONFIG'] = argv[1]
-
-    path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
     from serverdensity.proxy.app import app
     from serverdensity.proxy import settings
 
@@ -37,4 +36,5 @@ def main():
     run(app, settings.port)
 
 if __name__ == '__main__':
+    path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
     main()

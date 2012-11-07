@@ -3,3 +3,4 @@ include LICENSE
 include CHANGELOG
 include example-config.json
 recursive-include serverdensity/proxy *.json
+recursive-include serverdensity/proxy *.txt

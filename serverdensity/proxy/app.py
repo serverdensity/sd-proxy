@@ -2,7 +2,6 @@ import re
 import socket
 import hashlib
 import requests
-from random import choice
 from flask import Flask, request
 from gevent.monkey import patch_all
 from jsonschema import validate, ValidationError
@@ -12,9 +11,10 @@ try:
 except ImportError:
     import json
 
-from serverdensity.proxy import settings
+from serverdensity.proxy import get_version_string, settings
 
 app = Flask(__name__)
+app._version = get_version_string()
 patch_all()
 
 ALLOWED_HOSTS = []
@@ -34,10 +34,6 @@ if settings.use_schema:
 
 # Pre-compile ALL THE REGEXES!
 BLACKLIST_REGEXES = [re.compile(rx) for rx in settings.blacklist_regexes]
-
-if settings.check_ip_address and not settings.use_outbound_ssl:
-    # If we're not forcing HTTPS we can use all the IPs
-    settings.ip_addresses += settings.non_ssl_ip_address
 
 
 # TODO: refactor as a series of tubes, err, I mean a bunch of unit-testable
@@ -93,7 +89,6 @@ def postbacks():
 
         protocol = 'https' if settings.use_outbound_ssl else 'http'
 
-        hostname = host
         if settings.check_ip_address:
             hostname = socket.gethostbyname(host)
 
@@ -102,15 +97,18 @@ def postbacks():
                 # just force it to use a random approved IP, this is either due
                 # to bad DNS, local /etc/hosts resolution, or an out of date
                 # settings.ip_addresses, so we'll also add a warning
-                rand_hostname = choice(settings.ip_addresses)
-                app.logger.warning("%s not in settings.ip_addresses, using %s",
-                                    hostname, rand_hostname)
-                hostname = rand_hostname
+                app.logger.error("%s not in settings.ip_addresses", hostname)
+                return '"dns error"', 500
 
-        postback_url = '%s://%s/' % (protocol, hostname)
-        resp = requests.post(postback_url,
-                             data={'hash': hash, 'payload': payload},
-                             headers={'host': host})
+        postback_url = '%s://%s/postback/' % (protocol, host)
+        try:
+            resp = requests.post(postback_url,
+                                 data={'hash': hash, 'payload': payload},
+                                 headers={'Host': host})
+        except Exception as e:
+            app.logger.error("Failed to forward postback to %s: %s",
+                                                            host, e.message)
+            return '"upstream error"', 500
 
         return resp.text, resp.status_code
     else:

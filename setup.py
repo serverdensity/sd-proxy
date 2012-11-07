@@ -3,6 +3,8 @@
 
 import os
 cwd = os.path.dirname(__file__)
+_version = open(os.path.join(cwd, 'serverdensity',
+                   'proxy', 'version.txt'), 'r').read().strip()
 
 try:
         from setuptools import setup, find_packages
@@ -16,13 +18,14 @@ setup(
     description='Intelligent HTTP proxy for proxying Server Density'
                 ' sd-agent payloads from within a private network',
     long_description=open('README.rst').read(),
-    version='1.0.0',
+    version=_version,
     author='Wes Mason',
     author_email='wes@serverdensity.com',
     url='https://github.com/serverdensity/sd-proxy',
     packages=find_packages(exclude=['ez_setup']),
     install_requires=open('requirements.txt').readlines(),
-    package_data={'serverdensity/proxy': ['payload_schema.json']},
+    package_data={'serverdensity/proxy': ['payload_schema.json',
+                                          'version.txt']},
     include_package_data=True,
     license='BSD',
     entry_points={
