@@ -12,7 +12,7 @@ try:
 except ImportError:
     import json
 
-from . import settings
+from serverdensity.proxy import settings
 
 app = Flask(__name__)
 patch_all()
@@ -21,7 +21,7 @@ ALLOWED_HOSTS = []
 if not settings.allow_all_accounts:
     for account in settings.allowed_accounts:
         if not account.endswith('.serverdensity.com'):
-            account = "{0}.serverdensity.com".format(account)
+            account = "%s.serverdensity.com" % (account,)
 
         ALLOWED_HOSTS.append(account)
 
@@ -40,6 +40,8 @@ if settings.check_ip_address and not settings.use_outbound_ssl:
     settings.ip_addresses += settings.non_ssl_ip_address
 
 
+# TODO: refactor as a series of tubes, err, I mean a bunch of unit-testable
+# mini functions
 @app.route('/postback/', methods=('POST',))
 def postbacks():
     """Server Density postback handler.
@@ -105,7 +107,7 @@ def postbacks():
                                     hostname, rand_hostname)
                 hostname = rand_hostname
 
-        postback_url = '{0}://{1}/'.format(protocol, hostname)
+        postback_url = '%s://%s/' % (protocol, hostname)
         resp = requests.post(postback_url,
                              data={'hash': hash, 'payload': payload},
                              headers={'host': host})
@@ -116,4 +118,5 @@ def postbacks():
         return '"unknown account"', 404
 
 if __name__ == '__main__':
+    # Probably never used, run with the runserver entrypoint instead
     app.run(debug=True)
