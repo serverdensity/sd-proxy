@@ -115,8 +115,8 @@ LOG ALL THE THINGS!
 .. image:: http://cdn.memegenerator.net/instances/250x250/21226875.jpg
 
 Logging in sd-proxy is admittedly pretty dumb right now, request logs (ala
-Apache access logs) are spewed to the ``STDOUT`` of the main process and
-warnings and error get barfed to ``STDERR``.
+Apache access logs) are spewed to the ``STDOUT`` of the main process while
+warnings and errors get barfed to ``STDERR``.
 Every rejection based on a directive (e.g. MD5 checksum if enabled, JSON schema
 check if enabled, IP checks etc.) is logged as a warning, and application
 errors get logged as errors.
