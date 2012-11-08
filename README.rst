@@ -109,8 +109,8 @@ attached to the same inbound port.
 If you set the ``processes`` configuration value it will spawn that many,
 otherwise it will spawn 1 process per detected CPU core.
 
-LOG ALL THE THINGS!
--------------------
+Logging, yo?
+------------
 
 .. image:: http://cdn.memegenerator.net/instances/250x250/21226875.jpg
 
