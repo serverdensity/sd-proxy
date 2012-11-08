@@ -13,7 +13,7 @@ except ImportError:
 
 from serverdensity.proxy import get_version_string, settings
 
-app = Flask(__name__)
+app = Flask('sd-proxy')
 app._version = get_version_string()
 patch_all()
 
