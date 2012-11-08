@@ -57,6 +57,10 @@ ip_addresses = (
 # Whether to run Flask in debug mode or not (you can mostly ignore this)
 debug = False
 
+# Number of processes to spawn if using multirunserver.py
+# Any False value, e.g. 0, None, '', [] will spawn a process per CPU core
+processes = None
+
 
 #######################
 # JSON file overloads #

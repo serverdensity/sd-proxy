@@ -94,3 +94,34 @@ WSGI app using an application server like `uWSGI <http://projects.unbit.it/uwsgi
 or `Gunicorn <http://gunicorn.org/>`_, just set the ``SD_PROXY_CONFIG`` environment
 variable in ``os.environ`` and import the ``app`` instance from
 ``serverdensity.proxy.app``.
+
+Single threaded?
+----------------
+
+Yup, 1 process, 1 thread, multiple
+`greenlets <http://codespeak.net/py/0.9.2/greenlet.html>`_,
+and it's still pretty fast.
+
+If you worry about wasting those precious CPU cores then you can you use
+the provided ``multirunserver.py`` script to run multiple forked processes
+attached to the same inbound port.
+
+If you set the ``processes`` configuration value it will spawn that many,
+otherwise it will spawn 1 process per detected CPU core.
+
+LOG ALL THE THINGS!
+-------------------
+
+.. image:: http://cdn.memegenerator.net/instances/250x250/21226875.jpg
+
+Logging in sd-proxy is admittedly pretty dumb right now, request logs (ala
+Apache access logs) are spewed to the ``STDOUT`` of the main process and
+warnings and error get barfed to ``STDERR``.
+Every rejection based on a directive (e.g. MD5 checksum if enabled, JSON schema
+check if enabled, IP checks etc.) is logged as a warning, and application
+errors get logged as errors.
+
+This means if you want to log any of this to files for an audit trail you'll
+have to redirect the output from the ``sd-proxy`` process using
+tubes^W**pipes**, and optionally use something ``logrotate`` to keep the log
+files from piling up too much.

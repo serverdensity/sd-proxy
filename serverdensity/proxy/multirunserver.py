@@ -4,35 +4,19 @@
 import os
 import logging
 from sys import argv, path, stdout, stderr, exit
-from gevent.wsgi import WSGIServer
-
-
-class VersionedWSGIServer(WSGIServer):
-
-    def __init__(self, server_version, *args, **kwargs):
-        self.base_env['SERVER_SOFTWARE'] = server_version
-        super(VersionedWSGIServer, self).__init__(*args, **kwargs)
-
-
-def run(app, port=8889, listener=None):
-
-    if listener is None:
-        listener = ('', port)
-
-    version = 'sd-proxy/%s' % (app._version,)
-    http_server = VersionedWSGIServer(version, listener, app)
-    http_server.serve_forever()
+from gevent.socket import tcp_listener
+from multiprocessing import Process, cpu_count
 
 
 def main():
-
     if len(argv) < 1:
         print >> stderr, 'Please provide a path to your config file.'
-        exit(1)
+        return 1
 
     os.environ['SD_PROXY_CONFIG'] = argv[1]
     from serverdensity.proxy.app import app
     from serverdensity.proxy import settings
+    from serverdensity.proxy.runserver import run
 
     handler = logging.StreamHandler(stderr)
     handler.setLevel(logging.WARNING)
@@ -44,10 +28,18 @@ def main():
 
     app.debug = settings.debug
 
-    print >> stdout, 'Starting sd-proxy on port %s..' % (settings.port,)
-    run(app, settings.port)
+    process_num = settings.processes or cpu_count()
 
+    print >> stdout, 'Starting %s sd-proxy(s) on port %s..' % (
+                               process_num, settings.port,)
+
+    listener = tcp_listener(('127.0.0.1', settings.port))
+    for i in xrange((process_num - 1)):
+        Process(target=run, args=(app, None, listener)).start()
+
+    run(app, None, listener)
+    return 0
 
 if __name__ == '__main__':
     path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-    main()
+    exit(main())
