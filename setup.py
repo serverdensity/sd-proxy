@@ -30,7 +30,8 @@ setup(
     license='BSD',
     entry_points={
         'console_scripts': [
-            'sd-proxy = serverdensity.proxy.runserver:main'
+            'sd-proxy = serverdensity.proxy.runserver:main',
+            'sd-proxy-multi = serverdensity.proxy.multirunserver:main'
         ]
     }
 )

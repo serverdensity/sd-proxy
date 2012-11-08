@@ -103,8 +103,8 @@ Yup, 1 process, 1 thread, multiple
 and it's still pretty fast.
 
 If you worry about wasting those precious CPU cores then you can you use
-the provided ``multirunserver.py`` script to run multiple forked processes
-attached to the same inbound port.
+the provided ``sd-proxy-multi`` entrypoint or the ``multirunserver.py`` script
+directly to run multiple forked processes attached to the same inbound port.
 
 If you set the ``processes`` configuration value it will spawn that many,
 otherwise it will spawn 1 process per detected CPU core.
