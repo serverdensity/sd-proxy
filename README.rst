@@ -84,7 +84,7 @@ messy, and ``sd-proxy`` is designed to avoid that messyness.
 y u no HTTPS?
 -----------
 
-.. image:: http://i0.kym-cdn.com/entries/icons/original/000/004/006/y-u-no-guy.jpg
+.. image:: https://github.com/downloads/serverdensity/sd-proxy/yuno.png
 
 As we're acting as a Man-In-The-Middle for agent
 postbacks in order to allow the agents to postback over SSL to the proxy we
@@ -133,7 +133,7 @@ otherwise it will spawn 1 process per detected CPU core.
 Logging, yo?
 ------------
 
-.. image:: http://cdn.memegenerator.net/instances/250x250/21226875.jpg
+.. image:: https://github.com/downloads/serverdensity/sd-proxy/logallthethings.png
 
 Logging in sd-proxy is admittedly pretty dumb right now, request logs (ala
 Apache access logs) are spewed to the ``STDOUT`` of the main process while
