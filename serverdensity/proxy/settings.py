@@ -14,7 +14,7 @@ except ImportError:
 # an egg).
 
 # TCP/IP port to bind to
-port = 8889
+port = 80
 
 # Whether to check subdomains in Host header again allowed_accounts
 allow_all_accounts = False

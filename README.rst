@@ -47,18 +47,39 @@ requests are hitting the proxy node instead of serverdensity.com directly.
 Installing sd-proxy
 -------------------
 
-You can either install PyPI::
+Requirements:
+
+ * CPython >= 2.5 (should work on PyPy but untested and won't work with gevent)
+
+If using the gevent runner you'll need  platform that
+`supports gevent <http://www.gevent.org/intro.html>`_, otherwise you'll need
+to run the WSGI app with something like uWSGI or Gunicon,
+see the WSGI section below.
+
+You can either install the egg from PyPI::
 
     pip install sd-proxy
+
+    # If you're binding against port 80 you'll probably want to sudo the next line
     sd-proxy path/to/your/config.json
 
-Or from GitHub::
+Or source from GitHub::
 
     git clone git://github.com/1stvamp/sd-proxy.git
     cd sd-proxy
     # you probably want to create a virtualenv here
     pip install -r requirements.txt
+
+    # If you're binding against port 80 you'll probably want to sudo the next line
     python serverdensity/proxy/runserver.py path/to/your/config.json
+
+As we bind against port ``80`` by default you'll either need to run
+``sd-proxy`` as a priveleged process (e.g. as root) or run it on a different
+port and forward to it from port ``80`` with a reverse proxy/load balancer of
+some kind.
+The other alternative is to hack ``sd-agent`` on your monitored nodes to post
+back to a different port, but then you're maintaining your own port, things get
+messy, and ``sd-proxy`` is designed to avoid that messyness.
 
 y u no HTTPS?
 -----------
