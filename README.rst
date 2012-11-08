@@ -91,6 +91,6 @@ Swig me some WSGI
 As well as using the `gevent <http://www.gevent.org/>`_ co-operative asynchronous
 runner for ``sd-proxy`` you can alternatively run the proxy as a normal Python
 WSGI app using an application server like `uWSGI <http://projects.unbit.it/uwsgi/>`_
-or `Gunicorn <http://gunicorn.org/>`_, just import the ``app`` instance from
-``serverdensity.proxy.app`` and set the ``SD_PROXY_CONFIG`` environment
-variable in ``os.environ``.
+or `Gunicorn <http://gunicorn.org/>`_, just set the ``SD_PROXY_CONFIG`` environment
+variable in ``os.environ`` and import the ``app`` instance from
+``serverdensity.proxy.app``.
