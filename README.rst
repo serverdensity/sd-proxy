@@ -102,9 +102,44 @@ on it.
 Configuration
 -------------
 
-Descriptions for all the values you can override in your ``config.json`` are
-described in the `settings module <https://github.com/serverdensity/sd-proxy/blob/master/serverdensity/proxy/settings.py#L8>`_,
-and there is also an `example config file <https://github.com/serverdensity/sd-proxy/blob/master/example-config.json>`_.
+``port`` - TCP/IP port to bind to (*default: ``80``*)
+
+``allow_all_accounts`` - Whether to check subdomains in Host header again
+``allowed_accounts`` (*default: ``false``*)
+
+``allowed_accounts`` - Account names / subdomains to check Host against
+you can provide either the account name or full domain here,
+e.g.: foobar or foorbar.serverdensity.com, but don't use full URI or
+include port numbers (*default: ``[]``*)
+
+``use_outbound_ssl`` - Only forward to serverdensity.com over HTTPS (*default:
+``true``*)
+
+``check_hashes`` - Verify the MD5 hash of the payload provided by the agent
+(*default: ``false``*)
+
+``use_schema`` - Whether to use JSON schema verification (*default: ``false``*)
+
+``payload_schema`` - Location of the payload JSON (draft3) schema to check
+payloads against (*default: ``$PACKAGE_DIR/payload_schema.json``*)
+
+``blacklist_regexes`` - List of regular expressions to blacklist a payload if
+matched (*default: ``[]``*)
+
+``check_ip_address`` - Verify the serverdensity.com postback IP address being
+used against ip_addresses (*default: ``true``*)
+
+``ip_addresses`` - Postback IP addresses to verify against if check_ip_address is enabled see
+`the SD support doc on IPs <http://support.serverdensity.com/knowledgebase/articles/70742-postback-ip-address>`_
+(*default: ``['108.168.255.180', '208.43.117.99', '108.168.255.193', '108.168.255.195']``*)
+
+``processes`` - Number of processes to spawn if using ``sd-proxy-multi``
+Any False value, e.g. 0, null, '', [] will spawn a process per CPU core
+(*default: ``null``*)
+
+``debug`` - Whether to run Flask in debug mode or not (*default: ``false``*)
+
+There is also an `example config file <https://github.com/serverdensity/sd-proxy/blob/master/example-config.json>`_.
 
 Swig me some WSGI
 -----------------
