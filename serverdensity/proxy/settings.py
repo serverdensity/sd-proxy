@@ -45,8 +45,9 @@ blacklist_regexes = []
 # ip_addresses
 check_ip_address = True
 
-# Postback IP addresses to verify against if check_ip_address is enabled see:
-# http://support.serverdensity.com/knowledgebase/articles/70742-postback-ip-address
+# Postback IP addresses to verify against if check_ip_address is enabled see
+# ping your account URL to get the primary IP and contact hello@serverdensity.com
+# if you need details of all our backup IPs (we don't recommend hard coding these)
 ip_addresses = (
     '108.168.255.180',
     '208.43.117.99',
